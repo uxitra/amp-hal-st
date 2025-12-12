@@ -4,6 +4,7 @@ emil_build_for(examples_st.blink_nucleo144
     TARGET_MCU stm32f746
     TARGET_MCU stm32f767
     TARGET_MCU stm32h563
+    TARGET_MCU stm32h753
     PREREQUISITE_BOOL HALST_BUILD_EXAMPLES
 )
 

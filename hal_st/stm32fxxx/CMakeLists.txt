@@ -45,6 +45,8 @@ target_sources(hal_st.stm32fxxx PRIVATE
     $<$<STREQUAL:${TARGET_MCU},stm32g474>:DefaultClockNucleoG474xxx.hpp>
     $<$<STREQUAL:${TARGET_MCU},stm32h563>:DefaultClockNucleoH563ZI.cpp>
     $<$<STREQUAL:${TARGET_MCU},stm32h563>:DefaultClockNucleoH563ZI.hpp>
+    $<$<STREQUAL:${TARGET_MCU},stm32h563>:DefaultClockNucleoH753ZI.cpp>
+    $<$<STREQUAL:${TARGET_MCU},stm32h563>:DefaultClockNucleoH753ZI.hpp>
     $<$<STREQUAL:${TARGET_MCU},stm32wb55>:DefaultClockNucleoWB55RG.cpp>
     $<$<STREQUAL:${TARGET_MCU},stm32wb55>:DefaultClockNucleoWB55RG.hpp>
     $<$<STREQUAL:${TARGET_MCU},stm32wba52>:DefaultClockNucleoWBA52CG.cpp>
@@ -196,6 +198,9 @@ if (TARGET_MCU_VENDOR STREQUAL st)
     elseif (TARGET_MCU STREQUAL stm32h573)
         set(gpio_xml "${CMAKE_CURRENT_SOURCE_DIR}/ip/GPIO-STM32H56x_gpio_v1_0_Modes.xml")
         set(mcu_xml "${CMAKE_CURRENT_SOURCE_DIR}/mcu/STM32H573IIKxQ.xml")
+    elseif (TARGET_MCU STREQUAL stm32h753)
+        set(gpio_xml "${CMAKE_CURRENT_SOURCE_DIR}/ip/GPIO-STM32H7A2_gpio_v1_0_Modes.xml")
+        set(mcu_xml "${CMAKE_CURRENT_SOURCE_DIR}/mcu/STM32H753ZITx.xml")
     else()
         message(FATAL_ERROR "Unknown TARGET_MCU \"${TARGET_MCU}\". Please configure HALST_XML_GPIO and HALST_XML_STM32.")
     endif()
@@ -221,6 +226,8 @@ if (TARGET_MCU_VENDOR STREQUAL st)
         set(peripheral_xml "PeripheralTableG4xx.xml")
     elseif (TARGET_MCU_FAMILY STREQUAL stm32h5xx)
         set(peripheral_xml "PeripheralTableH5xx.xml")
+    elseif (TARGET_MCU_FAMILY STREQUAL stm32h7xx)
+        set(peripheral_xml "PeripheralTableH7xx.xml")
     else()
         set(peripheral_xml "PeripheralTableFxxx.xml")
     endif()

@@ -210,6 +210,16 @@
       }
     },
     {
+      "name": "stm32h753",
+      "inherits": "stm32",
+      "toolchainFile": "${sourceDir}/build/${presetName}/_deps/emil-src/cmake/toolchain-arm-gcc-m7-fpv5-d16.cmake",
+      "cacheVariables": {
+        "TARGET_CORTEX": "m7",
+        "TARGET_MCU_FAMILY": "stm32h7xx",
+        "TARGET_MCU": "stm32h753"
+      }
+    },
+    {
       "name": "Windows",
       "inherits": "defaults",
       "toolchainFile": "${sourceDir}/build/${presetName}/_deps/emil-src/cmake/toolchain-clang-x86_64-pc-windows-msvc.cmake",
@@ -230,7 +240,10 @@
       "name": "host-Debug-WithPackage",
       "configuration": "Debug",
       "configurePreset": "host",
-      "targets": ["all", "package"]
+      "targets": [
+        "all",
+        "package"
+      ]
     },
     {
       "name": "host-RelWithDebInfo",
@@ -246,7 +259,9 @@
       "name": "release-package",
       "configuration": "MinSizeRel",
       "configurePreset": "host-single-MinSizeRel",
-      "targets": ["package"]
+      "targets": [
+        "package"
+      ]
     },
     {
       "name": "stm32wb55-RelWithDebInfo",

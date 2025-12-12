@@ -1,0 +1,6 @@
+#ifndef HAL_ST_DEFAULT_CLOCK_NUCLEO_H753ZI_HPP
+#define HAL_ST_DEFAULT_CLOCK_NUCLEO_H753ZI_HPP
+
+void ConfigureDefaultClockNucleoH753ZI();
+
+#endif
