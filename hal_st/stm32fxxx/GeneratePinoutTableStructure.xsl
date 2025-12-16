@@ -225,7 +225,7 @@
             <xsl:value-of select="substring(../@Name, 2, 1)"/>
           </xsl:attribute>
           <xsl:attribute name="pin-index">
-            <xsl:value-of select="substring-before(concat(translate(substring(../@Name, 3), '-', '/'), '/'), '/')"/>
+            <xsl:value-of select="substring-before(concat(translate(substring(../@Name, 3), '-_', '//'), '/'), '/')"/>
           </xsl:attribute>
           <xsl:attribute name="channel">
             <xsl:value-of select="$channelNumber"/>
@@ -252,7 +252,7 @@
           <xsl:value-of select="substring(../@Name, 2, 1)"/>
         </xsl:attribute>
         <xsl:attribute name="pin-index">
-          <xsl:value-of select="substring-before(concat(translate(substring(../@Name, 3), '-', '/'), '/'), '/')"/>
+          <xsl:value-of select="substring-before(concat(translate(substring(../@Name, 3), '-_', '//'), '/'), '/')"/>
         </xsl:attribute>
         <xsl:attribute name="channel">
           <xsl:value-of select="substring(@Name, string-length(@Name))"/>
