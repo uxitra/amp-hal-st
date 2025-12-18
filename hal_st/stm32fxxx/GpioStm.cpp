@@ -546,7 +546,7 @@ namespace hal
         SYSCFG->EXTICR[index >> 2] = (SYSCFG->EXTICR[index >> 2] & ~extiMask) | extiValue;
 #endif
 
-#if defined(EXTI_RTSR1_RT0)
+#if defined(EXTI_RTSR1_RT0) || defined(EXTI_RTSR1_TR)
         if (trigger != InterruptTrigger::fallingEdge)
             EXTI->RTSR1 |= 1 << index;
         else
@@ -590,7 +590,7 @@ namespace hal
     {
         for (std::size_t line = from; line != to; ++line)
         {
-#if defined(STM32WB) || defined(STM32G4)
+#if defined(STM32WB) || defined(STM32G4) || defined(STM32H7)
             if (EXTI->PR1 & (1 << line))
             {
                 EXTI->PR1 &= (1 << line); // Interrupt pending is cleared by writing a 1 to it

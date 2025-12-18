@@ -48,7 +48,7 @@ namespace
         TimerIrqUnsupported,
 #endif
 #if defined(TIM6)
-#if defined(STM32F7) || defined(STM32F4) || defined(STM32G4)
+#if defined(STM32F7) || defined(STM32F4) || defined(STM32G4) || defined(STM32H7)
         IRQn_Type::TIM6_DAC_IRQn,
 #elif defined(STM32G071xx)
         IRQn_Type::TIM6_DAC_LPTIM1_IRQn,
@@ -71,7 +71,7 @@ namespace
         TimerIrqUnsupported,
 #endif
 #if defined(TIM8)
-#if defined(STM32F7) || defined(STM32F4)
+#if defined(STM32F7) || defined(STM32F4) || defined(STM32H7)
         IRQn_Type::TIM8_UP_TIM13_IRQn,
 #else
         IRQn_Type::TIM8_UP_IRQn,
@@ -80,7 +80,7 @@ namespace
         TimerIrqUnsupported,
 #endif
 #if defined(TIM9)
-#if defined(STM32F7) || defined(STM32F4)
+#if defined(STM32F7) || defined(STM32F4) || defined(STM32H7)
         IRQn_Type::TIM1_BRK_TIM9_IRQn,
 #else
         IRQn_Type::TIM9_IRQn,
@@ -89,7 +89,7 @@ namespace
         TimerIrqUnsupported,
 #endif
 #if defined(TIM10)
-#if defined(STM32F7) || defined(STM32F4)
+#if defined(STM32F7) || defined(STM32F4) || defined(STM32H7)
         IRQn_Type::TIM1_UP_TIM10_IRQn,
 #else
         IRQn_Type::TIM10_IRQn,
@@ -98,7 +98,7 @@ namespace
         TimerIrqUnsupported,
 #endif
 #if defined(TIM11)
-#if defined(STM32F7) || defined(STM32F4)
+#if defined(STM32F7) || defined(STM32F4) || defined(STM32H7)
         IRQn_Type::TIM1_TRG_COM_TIM11_IRQn,
 #else
         IRQn_Type::TIM11_IRQn,
@@ -107,7 +107,7 @@ namespace
         TimerIrqUnsupported,
 #endif
 #if defined(TIM12)
-#if defined(STM32F7) || defined(STM32F4)
+#if defined(STM32F7) || defined(STM32F4) || defined(STM32H7)
         IRQn_Type::TIM8_BRK_TIM12_IRQn,
 #else
         IRQn_Type::TIM12_IRQn,
@@ -116,7 +116,7 @@ namespace
         TimerIrqUnsupported,
 #endif
 #if defined(TIM13)
-#if defined(STM32F7) || defined(STM32F4)
+#if defined(STM32F7) || defined(STM32F4) || defined(STM32H7)
         IRQn_Type::TIM8_UP_TIM13_IRQn,
 #else
         IRQn_Type::TIM13_IRQn,
@@ -125,7 +125,7 @@ namespace
         TimerIrqUnsupported,
 #endif
 #if defined(TIM14)
-#if defined(STM32F7) || defined(STM32F4)
+#if defined(STM32F7) || defined(STM32F4) || defined(STM32H7)
         IRQn_Type::TIM8_TRG_COM_TIM14_IRQn,
 #else
         IRQn_Type::TIM14_IRQn,

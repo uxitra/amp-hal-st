@@ -140,7 +140,9 @@ namespace hal
 
     void UartStm::Invoke()
     {
-#if defined(USART_ISR_RXNE)
+#if defined(USART_ISR_RXNE_RXFNE)
+        if (uartArray[uartIndex]->ISR & USART_ISR_RXNE_RXFNE)
+#elif defined(USART_ISR_RXNE)
         if (uartArray[uartIndex]->ISR & USART_ISR_RXNE)
 #else
         if (uartArray[uartIndex]->SR & USART_SR_RXNE)
@@ -148,7 +150,9 @@ namespace hal
         {
             infra::BoundedVector<uint8_t>::WithMaxSize<8> buffer;
 
-#if defined(USART_ISR_RXNE)
+#if defined(USART_ISR_RXNE_RXFNE)
+            while (!buffer.full() && (uartArray[uartIndex]->ISR & USART_ISR_RXNE_RXFNE))
+#elif defined(USART_ISR_RXNE)
             while (!buffer.full() && (uartArray[uartIndex]->ISR & USART_ISR_RXNE))
 #else
             while (!buffer.full() && (uartArray[uartIndex]->SR & USART_SR_RXNE))
@@ -176,7 +180,9 @@ namespace hal
 
         if (sending && ((uartArray[uartIndex]->CR1 & USART_CR1_TXEIE) != 0))
         {
-#if defined(USART_ISR_TXE)
+#if defined(USART_ISR_TXE_TXFNF)
+            while (!sendData.empty() && (uartArray[uartIndex]->ISR & USART_ISR_TXE_TXFNF))
+#elif defined(USART_ISR_TXE)
             while (!sendData.empty() && (uartArray[uartIndex]->ISR & USART_ISR_TXE))
 #else
             while (!sendData.empty() && (uartArray[uartIndex]->SR & USART_SR_TXE))

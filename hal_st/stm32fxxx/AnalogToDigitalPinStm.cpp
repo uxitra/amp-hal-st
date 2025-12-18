@@ -23,15 +23,21 @@ extern "C"
 
 namespace
 {
-#if defined(STM32G4) || defined(STM32H5)
-    constexpr std::array irqMap
-    {
+#if defined(STM32G4) || defined(STM32H5) || defined(STM32H7)
+    constexpr std::array irqMap{
 #if defined(STM32G4)
 #if defined(ADC1)
         std::make_pair(1, IRQn_Type::ADC1_2_IRQn), // only ADC1 or ADC2 can be configured to use the single interrupt vector
 #endif
 #if defined(ADC2)
         std::make_pair(2, IRQn_Type::ADC1_2_IRQn), // only ADC1 or ADC2 can be configured to use the single interrupt vector
+#endif
+#elif defined(STM32H7)
+#if defined(ADC1)
+        std::make_pair(1, IRQn_Type::ADC_IRQn), // ADC1 and ADC2 share the same interrupt
+#endif
+#if defined(ADC2)
+        std::make_pair(2, IRQn_Type::ADC_IRQn), // ADC1 and ADC2 share the same interrupt
 #endif
 #else
 #if defined(ADC1)
@@ -168,7 +174,7 @@ namespace hal
         , interruptHandler(LookupIrq(oneBasedIndex), [this]()
 #elif defined(STM32WBA)
         , interruptHandler(ADC4_IRQn, [this]()
-#elif defined(STM32H5)
+#elif defined(STM32H5) || defined(STM32H7)
         , interruptHandler(LookupIrq(oneBasedIndex), [this]()
 #else
         , interruptHandler(ADC_IRQn, [this]()
@@ -189,9 +195,13 @@ namespace hal
         handle.Init.NbrOfDiscConversion = 0;
 #endif
         handle.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+#ifndef STM32H7
         handle.Init.DMAContinuousRequests = DISABLE;
+#endif
         handle.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+#ifndef STM32H7
         handle.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+#endif
         handle.Init.NbrOfConversion = 1;
         handle.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
 #ifdef ADC_OVR_DATA_OVERWRITTEN
@@ -206,7 +216,9 @@ namespace hal
         HAL_StatusTypeDef result = HAL_ADC_Init(&handle);
         assert(result == HAL_OK);
 
-#ifdef IS_ADC_SINGLE_DIFFERENTIAL
+#if defined(STM32H7)
+        result = HAL_ADCEx_Calibration_Start(&handle, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED);
+#elif defined(IS_ADC_SINGLE_DIFFERENTIAL)
         result = HAL_ADCEx_Calibration_Start(&handle, ADC_SINGLE_ENDED);
 #elif defined(IS_ADC_CALFACT)
         result = HAL_ADCEx_Calibration_Start(&handle);

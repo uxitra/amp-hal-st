@@ -1,5 +1,6 @@
 #include "hal_st/synchronous_stm32fxxx/SynchronousFlashInternalStm.hpp"
 #include "hal_st/stm32fxxx/FlashInternalStmDetail.hpp"
+#include "st/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h"
 
 namespace
 {
@@ -14,7 +15,7 @@ namespace
 #endif
     };
 
-#if defined(FLASH_DBANK_SUPPORT)
+#if defined(FLASH_DBANK_SUPPORT) || defined(STM32H7)
     uint32_t GetBank(uint32_t sectorIndex)
     {
         return sectorIndex < FLASH_PAGE_NB ? FLASH_BANK_1 : FLASH_BANK_2;
@@ -33,7 +34,9 @@ namespace hal
         HAL_FLASH_Unlock();
         const auto flashBegin = reinterpret_cast<uint32_t>(flashMemory.begin());
 
-#if defined(STM32WBA) || defined(STM32H5)
+#if defined(STM32H7)
+        detail::AlignedWriteBuffer<uint16_t, FLASH_TYPEPROGRAM_FLASHWORD, true>(buffer, address, flashBegin);
+#elif defined(STM32WBA) || defined(STM32H5)
         detail::AlignedWriteBuffer<uint128_t, FLASH_TYPEPROGRAM_QUADWORD, true>(buffer, address, flashBegin);
 #elif defined(STM32WB) || defined(STM32G4) || defined(STM32G0)
         detail::AlignedWriteBuffer<uint64_t, FLASH_TYPEPROGRAM_DOUBLEWORD, false>(buffer, address, flashBegin);
@@ -51,7 +54,7 @@ namespace hal
 
 #if defined(STM32F0) || defined(STM32F3)
         detail::AlignedWriteBuffer<uint16_t, FLASH_TYPEPROGRAM_HALFWORD, false>(buffer, address);
-#elif !defined(STM32WB) && !defined(STM32G4) && !defined(STM32G0) && !defined(STM32WBA)
+#elif !defined(STM32WB) && !defined(STM32G4) && !defined(STM32G0) && !defined(STM32WBA) && !defined(STM32H7)
         for (uint8_t byte : buffer)
         {
             auto result = HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, reinterpret_cast<uint32_t>(flashMemory.begin() + address), byte);
@@ -107,12 +110,15 @@ namespace hal
         {
 #if defined(STM32F0) || defined(STM32F3)
             abort(); // Not implemented
+#elif defined(STM32H7)
+            FLASH_Erase_Sector(index, GetBank(index), VOLTAGE_RANGE_3);
 #else
             FLASH_Erase_Sector(index, VOLTAGE_RANGE_3);
 #endif
 
             while (__HAL_FLASH_GET_FLAG(FLASH_FLAG_BSY))
-            {}
+            {
+            }
         }
 #endif
 

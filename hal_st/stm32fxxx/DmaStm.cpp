@@ -9,7 +9,7 @@ namespace hal
 {
     namespace
     {
-#if defined(DMA_STREAM_BASED)
+#if defined(DMA_STREAM_BASED) || defined(DMA_STREAM_BASED_DMAMUX)
         const std::array dmaISR{
             std::array{ &DMA1->LISR, &DMA1->LISR, &DMA1->LISR, &DMA1->LISR, &DMA1->HISR, &DMA1->HISR, &DMA1->HISR, &DMA1->HISR },
             std::array{ &DMA2->LISR, &DMA2->LISR, &DMA2->LISR, &DMA2->LISR, &DMA2->HISR, &DMA2->HISR, &DMA2->HISR, &DMA2->HISR },
@@ -30,6 +30,7 @@ namespace hal
             std::array{ DMA2_Stream0_IRQn, DMA2_Stream1_IRQn, DMA2_Stream2_IRQn, DMA2_Stream3_IRQn, DMA2_Stream4_IRQn, DMA2_Stream5_IRQn, DMA2_Stream6_IRQn, DMA2_Stream7_IRQn },
         };
 
+#if defined(DMA_STREAM_BASED)
         const std::array dmaChannel{
             DMA_CHANNEL_0,
             DMA_CHANNEL_1,
@@ -50,6 +51,7 @@ namespace hal
             DMA_CHANNEL_15,
 #endif
         };
+#endif
 
         const std::array streamToTCIF{ DMA_FLAG_TCIF0_4, DMA_FLAG_TCIF1_5, DMA_FLAG_TCIF2_6, DMA_FLAG_TCIF3_7, DMA_FLAG_TCIF0_4, DMA_FLAG_TCIF1_5, DMA_FLAG_TCIF2_6, DMA_FLAG_TCIF3_7 };
         const std::array streamToHTIF{ DMA_FLAG_HTIF0_4, DMA_FLAG_HTIF1_5, DMA_FLAG_HTIF2_6, DMA_FLAG_HTIF3_7, DMA_FLAG_HTIF0_4, DMA_FLAG_HTIF1_5, DMA_FLAG_HTIF2_6, DMA_FLAG_HTIF3_7 };
@@ -470,7 +472,13 @@ namespace hal
         DmaChannelHandle.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
         DmaChannelHandle.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
         DmaChannelHandle.Init.Priority = DMA_PRIORITY_MEDIUM;
-#if defined(DMA_STREAM_BASED)
+#if defined(DMA_STREAM_BASED_DMAMUX)
+        DmaChannelHandle.Init.Request = channelId.channel;
+        DmaChannelHandle.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+        DmaChannelHandle.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+        DmaChannelHandle.Init.MemBurst = DMA_MBURST_SINGLE;
+        DmaChannelHandle.Init.PeriphBurst = DMA_PBURST_SINGLE;
+#elif defined(DMA_STREAM_BASED)
         DmaChannelHandle.Init.Channel = dmaChannel[channelId.channel];
         DmaChannelHandle.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
         DmaChannelHandle.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;

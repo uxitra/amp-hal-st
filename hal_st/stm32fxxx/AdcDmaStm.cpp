@@ -45,7 +45,11 @@ namespace hal
         assert(result == HAL_OK);
 
 #ifdef ADC_SINGLE_ENDED
+#if defined(STM32H7)
+        result = HAL_ADCEx_Calibration_Start(&adc.Handle(), ADC_CALIB_OFFSET, ADC_SINGLE_ENDED);
+#else
         result = HAL_ADCEx_Calibration_Start(&adc.Handle(), ADC_SINGLE_ENDED);
+#endif
 #elif defined(IS_ADC_CALFACT)
         result = HAL_ADCEx_Calibration_Start(&adc.Handle());
 #endif
@@ -85,7 +89,11 @@ namespace hal
         assert(result == HAL_OK);
 
         __HAL_ADC_CLEAR_FLAG(&adc.Handle(), (ADC_FLAG_EOC | ADC_FLAG_EOS | ADC_FLAG_OVR));
+#if defined(STM32H7)
+        LL_ADC_REG_SetDataTransferMode(adc.Handle().Instance, LL_ADC_REG_DMA_TRANSFER_LIMITED);
+#else
         LL_ADC_REG_SetDMATransfer(adc.Handle().Instance, LL_ADC_REG_DMA_TRANSFER_LIMITED);
+#endif
     }
 
     void AdcTriggeredByTimerWithDma::TransferDone()

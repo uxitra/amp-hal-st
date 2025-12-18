@@ -31,7 +31,11 @@ namespace hal
               DmaStm::StreamInterruptHandler::immediate)
     {
         Initialize();
+#if defined(STM32H7)
+        LL_ADC_REG_SetDataTransferMode(adc.Handle().Instance, LL_ADC_REG_DMA_TRANSFER_LIMITED);
+#else
         LL_ADC_REG_SetDMATransfer(adc.Handle().Instance, LL_ADC_REG_DMA_TRANSFER_LIMITED);
+#endif
     }
 
     AdcDmaMultiChannelStmBase::AdcDmaMultiChannelStmBase(infra::MemoryRange<uint16_t> buffer, infra::MemoryRange<AnalogPinStm> analogPins, AdcStm& adc, DmaStm::ReceiveStream& receiveStream, Unlimited)
@@ -44,14 +48,22 @@ namespace hal
               })
     {
         Initialize();
+#if defined(STM32H7)
+        LL_ADC_REG_SetDataTransferMode(adc.Handle().Instance, LL_ADC_REG_DMA_TRANSFER_UNLIMITED);
+#else
         LL_ADC_REG_SetDMATransfer(adc.Handle().Instance, LL_ADC_REG_DMA_TRANSFER_UNLIMITED);
+#endif
     }
 
     void AdcDmaMultiChannelStmBase::Initialize()
     {
 #ifdef ADC_DIFFERENTIAL_ENDED
         // single ended calibration is already done by AdcStm
+#if defined(STM32H7)
+        auto result = HAL_ADCEx_Calibration_Start(&adc.Handle(), ADC_CALIB_OFFSET, ADC_DIFFERENTIAL_ENDED);
+#else
         auto result = HAL_ADCEx_Calibration_Start(&adc.Handle(), ADC_DIFFERENTIAL_ENDED);
+#endif
         assert(result == HAL_OK);
 #elif defined(IS_ADC_CALFACT)
         auto result = HAL_ADCEx_Calibration_Start(&adc.Handle());

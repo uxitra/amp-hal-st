@@ -17,8 +17,8 @@ target_link_libraries(hal_st.stm32fxxx PUBLIC
 )
 
 target_sources(hal_st.stm32fxxx PRIVATE
-    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>:AnalogToDigitalPinStm.cpp>
-    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>:AnalogToDigitalPinStm.hpp>
+    AnalogToDigitalPinStm.cpp
+    AnalogToDigitalPinStm.hpp
     AdcTimerTriggeredBase.cpp
     AdcTimerTriggeredBase.hpp
     BackupRamStm.cpp
@@ -55,13 +55,13 @@ target_sources(hal_st.stm32fxxx PRIVATE
     $<$<STREQUAL:${TARGET_MCU},stm32wba65>:DefaultClockNucleoWBA65RI.hpp>
     DigitalToAnalogPinStm.cpp
     DigitalToAnalogPinStm.hpp
-    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:DmaStm.cpp>
-    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:DmaStm.hpp>
-    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h5xx>>:EthernetMacStm.cpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:DmaStm.cpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:DmaStm.hpp>
+    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h5xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:EthernetMacStm.cpp>
     $<$<STREQUAL:${TARGET_MCU_FAMILY},stm32h5xx>:EthernetMacH5xxStm.cpp>
-    EthernetMacStm.hpp
-    EthernetSmiStm.cpp
-    EthernetSmiStm.hpp
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>:EthernetMacStm.hpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>:EthernetSmiStm.cpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>:EthernetSmiStm.hpp>
     $<$<STREQUAL:${TARGET_MCU_FAMILY},stm32h5xx>:FlashInternalHighCycleAreaStm.cpp>
     $<$<STREQUAL:${TARGET_MCU_FAMILY},stm32h5xx>:FlashInternalHighCycleAreaStm.hpp>
     FlashInternalStm.cpp
@@ -70,18 +70,18 @@ target_sources(hal_st.stm32fxxx PRIVATE
     $<$<STREQUAL:${TARGET_MCU},stm32wb55>:FlashInternalStmBle.hpp>
     GpioStm.cpp
     GpioStm.hpp
-    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:I2cStm.cpp>
-    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:I2cStm.hpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:I2cStm.cpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:I2cStm.hpp>
     QuadSpiStm.cpp
     QuadSpiStm.hpp
     $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:QuadSpiStmDma.cpp>
     $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:QuadSpiStmDma.hpp>
     LowPowerStrategyStm.cpp
     LowPowerStrategyStm.hpp
-    LpTimerStm.cpp
-    LpTimerStm.hpp
-    $<$<NOT:$<STREQUAL:${TARGET_MCU},stm32wb55>>:LpTimerPwmStm.cpp>
-    $<$<NOT:$<STREQUAL:${TARGET_MCU},stm32wb55>>:LpTimerPwmStm.hpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>:LpTimerStm.cpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>:LpTimerStm.hpp>
+    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU},stm32wb55>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:LpTimerPwmStm.cpp>
+    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU},stm32wb55>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:LpTimerPwmStm.hpp>
     RandomDataGeneratorStm.cpp
     RandomDataGeneratorStm.hpp
     ResetStm.cpp
@@ -96,8 +96,8 @@ target_sources(hal_st.stm32fxxx PRIVATE
     $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>:SpiMasterStm.hpp>
     $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:SpiMasterStmDma.cpp>
     $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:SpiMasterStmDma.hpp>
-    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:SpiSlaveStmDma.cpp>
-    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:SpiSlaveStmDma.hpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:SpiSlaveStmDma.cpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:SpiSlaveStmDma.hpp>
     SystemTickStm.cpp
     SystemTickStm.hpp
     SystemTickTimerService.cpp
@@ -106,20 +106,20 @@ target_sources(hal_st.stm32fxxx PRIVATE
     TimerPwmStm.hpp
     TimerStm.cpp
     TimerStm.hpp
-    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:UartStm.cpp>
-    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:UartStm.hpp>
-    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:UartStmDma.cpp>
-    $<$<NOT:$<OR:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>,$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>>:UartStmDma.hpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:UartStm.cpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:UartStm.hpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:UartStmDma.cpp>
+    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32g0xx>>:UartStmDma.hpp>
     UsbLinkLayerStm.cpp
     UsbLinkLayerStm.hpp
     UniqueDeviceId.cpp
     UniqueDeviceId.hpp
-    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>:WatchDogStm.cpp>
-    $<$<NOT:$<STREQUAL:${TARGET_MCU_FAMILY},stm32h7xx>>:WatchDogStm.hpp>
+    WatchDogStm.cpp
+    WatchDogStm.hpp
 )
 
 list(APPEND UartMcus stm32wb55)
-list(APPEND UartMcuFamilies stm32f7xx stm32g4xx stm32wbaxx stm32h5xx)
+list(APPEND UartMcuFamilies stm32f7xx stm32g4xx stm32wbaxx stm32h5xx stm32h7xx)
 
 if (TARGET_MCU IN_LIST UartMcus OR TARGET_MCU_FAMILY IN_LIST UartMcuFamilies)
     target_sources(hal_st.stm32fxxx PRIVATE UartStmDuplexDma.cpp
@@ -128,7 +128,7 @@ if (TARGET_MCU IN_LIST UartMcus OR TARGET_MCU_FAMILY IN_LIST UartMcuFamilies)
 endif()
 
 list(APPEND AdcDmaMcus stm32wb55)
-list(APPEND AdcDmaMcuFamilies stm32wbaxx stm32h5xx)
+list(APPEND AdcDmaMcuFamilies stm32wbaxx stm32h5xx stm32h7xx)
 
 if (TARGET_MCU IN_LIST AdcDmaMcus OR TARGET_MCU_FAMILY IN_LIST AdcDmaMcuFamilies)
     target_sources(hal_st.stm32fxxx PRIVATE AdcDmaStm.cpp

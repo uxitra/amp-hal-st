@@ -42,6 +42,8 @@ namespace hal
     defined(STM32F469xx) || defined(STM32F479xx) ||                                                 \
     defined(STM32F0) || defined(STM32F3) || defined(STM32F7) || defined(STM32H5)
         HAL_I2CEx_AnalogFilter_Config(&i2cHandle, I2C_ANALOGFILTER_ENABLE);
+#elif defined(STM32H7)
+        HAL_I2CEx_ConfigAnalogFilter(&i2cHandle, I2C_ANALOGFILTER_ENABLE);
 #endif
     }
 

@@ -10,7 +10,7 @@ namespace hal
         , mosi(mosi, PinConfigTypeStm::spiMosi, oneBasedSpiIndex)
         , slaveSelect(slaveSelect, PinConfigTypeStm::spiSlaveSelect, oneBasedSpiIndex)
         , slaveSelectGpio(slaveSelect)
-#if !defined(STM32WBA) && !defined(STM32H5)
+#if !defined(STM32WBA) && !defined(STM32H5) && !defined(STM32H7)
         , tx(transmitStream, &peripheralSpi[spiInstance]->DR, 1, [this]()
 #else
         , tx(transmitStream, &peripheralSpi[spiInstance]->TXDR, 1, [this]()
@@ -18,7 +18,7 @@ namespace hal
               {
                   SendDone();
               })
-#if !defined(STM32WBA) && !defined(STM32H5)
+#if !defined(STM32WBA) && !defined(STM32H5) && !defined(STM32H7)
         , rx(receiveStream, &peripheralSpi[spiInstance]->DR, 1, [this]()
 #else
         , rx(receiveStream, &peripheralSpi[spiInstance]->RXDR, 1, [this]()
