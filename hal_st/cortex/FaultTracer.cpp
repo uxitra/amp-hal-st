@@ -6,7 +6,11 @@ namespace
 {
     void FeedWatchdog()
     {
+#if defined(STM32H7)
+        WWDG1->CR |= WWDG_CR_T;
+#else
         WWDG->CR |= WWDG_CR_T;
+#endif
     }
 }
 
