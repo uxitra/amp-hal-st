@@ -4,17 +4,16 @@
 /* The system Clock is configured as follows:
  *    System Clock source            = HSI
  *    SYSCLK(Hz)                     = 64000000
- *    HCLK1(Hz)                      = 64000000 (max 64000000)
- *    HCLK2(Hz)                      = 32000000 (max 32000000)
- *    HCLK4(Hz)                      = 64000000 (max 64000000)
- *    AHB Prescaler                  = 1
- *    APB1 Prescaler                 = 1
- *    APB2 Prescaler                 = 1
- *    HSI48 Frequency(Hz)            = 48MHz
- *    LSE Frequency(Hz)              = 32kHz
- *    HSE Frequency(Hz)              = 32MHz
+ *    HCLK(Hz)                       = 64000000
+ *    D1 Domain APB3 (PCLK3)         = 64000000
+ *    D2 Domain APB1 (PCLK1)         = 64000000 (for UART)
+ *    D2 Domain APB2 (PCLK2)         = 64000000
+ *    D3 Domain APB4 (PCLK4)         = 64000000
+ *    HSI Frequency(Hz)              = 64000000
+ *    All Prescalers                 = 1
  *    VDD(V)                         = 3.3
- *    Main regulator output voltage  = Scale1 mode
+ *    Main regulator output voltage  = Scale2 mode
+ *    Flash Latency(WS)              = 1
  */
 void ConfigureDefaultClockNucleoH753ZI()
 {
