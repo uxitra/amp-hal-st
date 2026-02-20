@@ -5,9 +5,9 @@
 #include "infra/util/ByteRange.hpp"
 #include "infra/util/Function.hpp"
 #include "infra/util/MemoryRange.hpp"
-#include "infra/util/Variant.hpp"
 #include <array>
 #include <cstdint>
+#include <variant>
 
 #include DEVICE_HEADER
 
@@ -213,7 +213,7 @@ namespace hal
 
             Stream& stream;
 
-            infra::Variant<DispatchedInterruptHandler, ImmediateInterruptHandler> interruptHandler;
+            std::variant<DispatchedInterruptHandler, ImmediateInterruptHandler> interruptHandler;
             InterruptHandler* interruptHandlerHandle;
 
             infra::Function<void()> transferFullComplete;
